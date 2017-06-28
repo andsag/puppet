@@ -4,20 +4,18 @@ node default {
 
 }
 node 'puppetslave01.local.com' {
-    include user
-    $username = "bart"
     include stdlib
     include motd
     include init
     include sshdconfig
     include file
     include augeas	
-
+    include www	
 }
 
 node 'puppetslave02.local.com' {
-    include user
     include motd
     include sshdconfig
     include augeas	
+    include www
 }
