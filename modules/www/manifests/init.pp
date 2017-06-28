@@ -2,6 +2,7 @@ class www ( $servicename = hiera("servicewww")) {
 
 	package { $servicename:
 		ensure => present,
+		allow_virtual => true,
 		}
 
 	service { $servicename :
@@ -15,7 +16,7 @@ class www ( $servicename = hiera("servicewww")) {
                 owner => apache,
                 group => apache,
                 mode => 444,
-                content => "dupa",
+                content => template("www/index.html.erb"),
                 require => Package[$servicename],
         }
 
