@@ -1,9 +1,7 @@
-node default {
-    include base
-    include postgres
-}
 node 'puppetslave01.local.com' {
-    include www	
-    include base
-    include postgres	
+	include role::webserver
+}
+
+node 'puppetslave02.local.com' {
+	include role::dbserver
 }
