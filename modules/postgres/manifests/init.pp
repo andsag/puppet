@@ -12,6 +12,7 @@ class postgres {
 		command => 'sudo postgresql-setup initdb',
 		path => "/bin/",
 		onlyif => ['test ! -f /var/lib/pgsql/data/pg_hba.conf'],
+		require => Package[$pack],
 		}
 	
 	service {"postgresql":
@@ -23,7 +24,8 @@ class postgres {
 	exec    { 'rights':
                 command => "sed -i 's/md5/ident/g' /var/lib/pgsql/data/pg_hba.conf",
                 path => "/bin/",
-                notify => Service["postgresql"],
+                require => Exec["initialize"],
+		notify => Service["postgresql"],
 		}
 	
 
