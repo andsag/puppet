@@ -5,3 +5,7 @@ node 'puppetslave01.local.com' {
 node 'puppetslave02.local.com' {
 	include role::dbserver
 }
+
+node 'puppetslave03.local.com' {
+        include role::webserver
+}
