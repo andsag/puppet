@@ -7,5 +7,6 @@ node 'puppetslave02.local.com' {
 }
 
 node 'puppetslave03.local.com' {
-        include role::webserver
+	include role
+	include jdk
 }
