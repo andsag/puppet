@@ -1,15 +1,20 @@
 class base {
 
-	exec    { "update":
-		command => "yum clean all; yum -q -y update",
-		path => "/bin/"
-		}
+#	exec    { "update":
+#		command => "yum clean all; yum -q -y update",
+#		path => "/bin/"
+#		}
 	
 	exec    { "ipv6":
 		command =>"sysctl -w net.ipv6.conf.all.disable_ipv6=1; sysctl -w net.ipv6.conf.default.disable_ipv6=1",
 		path => "/sbin/"
 		}   
-		
+	
+	exec    { "timezone":
+                command =>"timedatectl set-timezone Europe/Warsaw",
+                path => "/usr/bin/"
+		}
+
 	package { "epel-release": 
 		ensure => present,
 		allow_virtual => true,
@@ -57,6 +62,8 @@ class base {
                 line  => 'SELINUX=disabled',
                 match => 'SELINUX=enforcing',
                   }  
-
-
+	service { 'chronyd':
+		ensure => running,
+		enable => true,
+		}
 }
