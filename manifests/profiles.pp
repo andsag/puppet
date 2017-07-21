@@ -8,4 +8,9 @@ class profile::web {
 
 class profile::database {
 	include postgres
+}
+
+class profile::java {
+	include jdk
+	include tomcat
 }	

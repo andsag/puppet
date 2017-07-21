@@ -11,10 +11,11 @@ class jdk {
     		provider => 'rpm',
     		source => "/tmp/jdk-8u131-linux-x64.rpm",
   		require => Exec["wget_jdk"],
+		allow_virtual => true,
 		}
 
 	exec { 'enviroment':
-		command => "echo \"export JAVA_HOME=/usr/java/jdk1.8.0_131/jre\" > /etc/environment",
+		command => "echo \"JAVA_HOME=/usr/java/jdk1.8.0_131/jre\" > /etc/environment",
 		path => "/bin/",
 		require => Package['jdk1.8.0_131-2000:1.8.0_131-fcs.x86_64'],
 	     }

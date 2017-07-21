@@ -7,7 +7,6 @@ node 'puppetslave02.local.com' {
 }
 
 node 'puppetslave03.local.com' {
-	include role
-	include jdk
-	include tomcat
+	include role::javaserver
+	include opengrok
 }

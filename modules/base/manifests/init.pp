@@ -1,20 +1,5 @@
 class base {
 
-#	exec    { "update":
-#		command => "yum clean all; yum -q -y update",
-#		path => "/bin/"
-#		}
-	
-	exec    { "ipv6":
-		command =>"sysctl -w net.ipv6.conf.all.disable_ipv6=1; sysctl -w net.ipv6.conf.default.disable_ipv6=1",
-		path => "/sbin/"
-		}   
-	
-	exec    { "timezone":
-                command =>"timedatectl set-timezone Europe/Warsaw",
-                path => "/usr/bin/"
-		}
-
 	package { "epel-release": 
 		ensure => present,
 		allow_virtual => true,
@@ -31,7 +16,7 @@ class base {
                 require =>Package["epel-release"],
                 allow_virtual => true,
 		}
-	
+
 	package { "vim":
 		ensure => present,
 		require =>Package["epel-release"],
@@ -45,25 +30,34 @@ class base {
                mode => 444,
                content => template("base/motd.erb"),
                }
-	
+
 	package { wget:
                 ensure => present,
                 require =>Package["epel-release"],
 		allow_virtual => true,
         	}
 
-	# replace string
+        file       { '/etc/selinux/config':
+                   ensure => present,
+                   }->
+        file_line  { 'selinux':
+                   path  => '/etc/selinux/config',
+                   line  => 'SELINUX=disabled',
+                   match => 'SELINUX=enforcing',
+                   }
 
-        file    { '/etc/selinux/config':
-                 ensure => present,
-                 }->
-        file_line { 'selinux':
-                path  => '/etc/selinux/config',
-                line  => 'SELINUX=disabled',
-                match => 'SELINUX=enforcing',
-                  }  
 	service { 'chronyd':
 		ensure => running,
 		enable => true,
+		}
+
+	exec    { "ipv6":
+		command =>"sysctl -w net.ipv6.conf.all.disable_ipv6=1; sysctl -w net.ipv6.conf.default.disable_ipv6=1",
+		path => "/sbin/"
+		}
+ 
+	exec    { "timezone":
+                command =>"timedatectl set-timezone Europe/Warsaw",
+                path => "/usr/bin/"
 		}
 }
