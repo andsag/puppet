@@ -11,11 +11,10 @@ class tomcat {
 		 require => Group['tomcat'],
               }
 
-	exec { 'wget_tomcat':
-		command => "wget -P /tmp/ http://ftp.ps.pl/pub/apache/tomcat/tomcat-8/v8.0.45/bin/apache-tomcat-8.0.45.tar.gz",
-		path => "/usr/bin/",
-		onlyif => ['test ! -f /tmp/apache-tomcat-8.0.45.tar.gz'],
-	     }->
+	file { "/tmp/apache-tomcat-8.0.45.tar.gz":
+        	ensure => file,
+		source => 'puppet:///modules/tomcat/apache-tomcat-8.0.45.tar.gz',
+    	     }->
 	file { '/opt/tomcat':
    		 ensure => 'directory',
     		 owner  => 'tomcat',
@@ -25,6 +24,10 @@ class tomcat {
                 command => "tar xvf /tmp/apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1",
                 path => "/bin/",
 		onlyif => ['test -d /opt/tomcat'],
+             }->
+	file { '/opt/tomcat/conf/tomcat-users.xml':
+                ensure => 'present',
+                content => template("tomcat/tomcat-users.xml"),
              }->
 	exec { 'ownership':
                 command => "chown -hR tomcat:tomcat /opt/tomcat",
