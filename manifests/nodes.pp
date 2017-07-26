@@ -1,12 +1,8 @@
-node 'puppetslave01.local.com' {
-	include role::webserver
-}
-
-node 'puppetslave02.local.com' {
-	include role::dbserver
-}
-
-node 'puppetslave03.local.com' {
-	include role::javaserver
-	include opengrok
+node default {
+  case $machine_role {
+    websrv:             { include role::webserver }
+    dbsrv:               { include role::dbserver }
+    javasrv:             { include role::javaserver }
+    default:             { include role}
+  }
 }
