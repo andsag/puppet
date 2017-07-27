@@ -1,0 +1,3 @@
+export CATALINA_HOME=/opt/tomcat
+export OPENGROK_TOMCAT_BASE=/opt/tomcat
+export OPENGROK_INSTANCE_BASE=/opt/opengrok/src

@@ -13,4 +13,5 @@ class profile::database {
 class profile::java {
 	include jdk
 	include tomcat
+	include opengrok
 }	
